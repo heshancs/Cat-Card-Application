@@ -17,17 +17,17 @@ const {
 } = config;
 
 // Function to fetch an image from a given URL
-async function fetchImage(url) {
+const fetchImage = async (url) => {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
     return response.data;
   } catch (error) {
     throw new Error(`Failed to fetch image from ${url}: ${error.message}`);
   }
-}
+};
 
 // Function to save an image buffer to a file
-async function saveImageToFile(buffer, filePath) {
+const saveImageToFile = async (buffer, filePath) => {
   return new Promise((resolve, reject) => {
     fs.writeFile(filePath, buffer, 'binary', (error) => {
       if (error) {
@@ -37,10 +37,10 @@ async function saveImageToFile(buffer, filePath) {
       }
     });
   });
-}
+};
 
 // Function to generate a cat card by merging two images
-async function generateCatCard() {
+const generateCatCard = async () => {
   // Constructing URLs for the cat images with specified parameters
   const firstUrl = `${baseUrl}/cat/says/${encodeURIComponent(greeting)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
   const secondUrl = `${baseUrl}/cat/says/${encodeURIComponent(who)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
@@ -63,7 +63,7 @@ async function generateCatCard() {
   } catch (error) {
     console.error('An error occurred while generating the cat card:', error);
   }
-}
+};
 
 // Generating the cat card and handling success/error cases
 generateCatCard()
