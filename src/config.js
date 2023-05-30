@@ -1,4 +1,5 @@
 const config = {
+    baseUrl: process.env.baseUrl || 'https://cataas.com',
     greeting: process.env.GREETING || 'Hello',
     who: process.env.WHO || 'You',
     width: parseInt(process.env.WIDTH) || 400,

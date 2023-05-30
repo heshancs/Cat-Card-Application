@@ -7,6 +7,7 @@ import { mergeImages } from './utils/mergeImages.js';
 
 // Extracting required variables from the configuration
 const {
+  baseUrl,
   greeting,
   who,
   width,
@@ -41,8 +42,8 @@ async function saveImageToFile(buffer, filePath) {
 // Function to generate a cat card by merging two images
 async function generateCatCard() {
   // Constructing URLs for the cat images with specified parameters
-  const firstUrl = `https://cataas.com/cat/says/${encodeURIComponent(greeting)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
-  const secondUrl = `https://cataas.com/cat/says/${encodeURIComponent(who)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
+  const firstUrl = `${baseUrl}/cat/says/${encodeURIComponent(greeting)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
+  const secondUrl = `${baseUrl}/cat/says/${encodeURIComponent(who)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
 
   try {
     // Fetching the images asynchronously
