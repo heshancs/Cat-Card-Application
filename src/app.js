@@ -1,9 +1,11 @@
+// Importing required modules
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import config from './config.js';
 import { mergeImages } from './utils/mergeImages.js';
 
+// Extracting required variables from the configuration
 const {
   greeting,
   who,
@@ -13,6 +15,7 @@ const {
   size
 } = config;
 
+// Function to fetch an image from a given URL
 async function fetchImage(url) {
   try {
     const response = await axios.get(url, { responseType: 'arraybuffer' });
@@ -22,6 +25,7 @@ async function fetchImage(url) {
   }
 }
 
+// Function to save an image buffer to a file
 async function saveImageToFile(buffer, filePath) {
   return new Promise((resolve, reject) => {
     fs.writeFile(filePath, buffer, 'binary', (error) => {
@@ -34,25 +38,33 @@ async function saveImageToFile(buffer, filePath) {
   });
 }
 
+// Function to generate a cat card by merging two images
 async function generateCatCard() {
+  // Constructing URLs for the cat images with specified parameters
   const firstUrl = `https://cataas.com/cat/says/${encodeURIComponent(greeting)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
   const secondUrl = `https://cataas.com/cat/says/${encodeURIComponent(who)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
 
   try {
+    // Fetching the images asynchronously
     const [firstBody, secondBody] = await Promise.all([
       fetchImage(firstUrl),
       fetchImage(secondUrl)
     ]);
 
+    // Merging the images
     const buffer = await mergeImages(firstBody, secondBody);
 
+    // Constructing the file path for the cat card image
     const filePath = path.join(process.cwd(), 'dist', 'cat-card.jpg');
+
+    // Saving the merged image buffer to a file
     await saveImageToFile(buffer, filePath);
   } catch (error) {
     console.error('An error occurred while generating the cat card:', error);
   }
 }
 
+// Generating the cat card and handling success/error cases
 generateCatCard()
   .then(() => {
     console.log('The cat card was generated and saved successfully!');
