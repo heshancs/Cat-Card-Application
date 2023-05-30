@@ -6,15 +6,7 @@ import config from './config.js';
 import { mergeImages } from './utils/mergeImages.js';
 
 // Extracting required variables from the configuration
-const {
-  baseUrl,
-  greeting,
-  who,
-  width,
-  height,
-  color,
-  size
-} = config;
+const { baseUrl, greeting, who, width, height, color, size } = config;
 
 // Function to fetch an image from a given URL
 const fetchImage = async (url) => {
@@ -42,14 +34,22 @@ const saveImageToFile = async (buffer, filePath) => {
 // Function to generate a cat card by merging two images
 const generateCatCard = async () => {
   // Constructing URLs for the cat images with specified parameters
-  const firstUrl = `${baseUrl}/cat/says/${encodeURIComponent(greeting)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
-  const secondUrl = `${baseUrl}/cat/says/${encodeURIComponent(who)}?width=${width}&height=${height}&color=${encodeURIComponent(color)}&s=${size}`;
+  const firstUrl = `${baseUrl}/cat/says/${encodeURIComponent(
+    greeting
+  )}?width=${width}&height=${height}&color=${encodeURIComponent(
+    color
+  )}&s=${size}`;
+  const secondUrl = `${baseUrl}/cat/says/${encodeURIComponent(
+    who
+  )}?width=${width}&height=${height}&color=${encodeURIComponent(
+    color
+  )}&s=${size}`;
 
   try {
     // Fetching the images asynchronously
     const [firstBody, secondBody] = await Promise.all([
       fetchImage(firstUrl),
-      fetchImage(secondUrl)
+      fetchImage(secondUrl),
     ]);
 
     // Merging the images
